@@ -1,0 +1,58 @@
+
+```{r setup}
+# Load your packages
+library(tidyverse); library(here); library(lubridate)
+
+# Set your working directory
+here()
+```
+
+```{r load data}
+# Load data
+obis_raw <- read.csv(here('Data/Raw/obis_seamap_species_160985_points.csv'))
+```
+
+```{r clean data}
+# Filter NC data points by latitude (North = 36.588056, South = 33.843056)
+obis_nc <- obis_raw %>%
+  filter(between(latitude,33.843056,36.588056))
+
+# Format date columns
+obis_nc <- obis_nc %>%
+  mutate(date_time = ymd_hms(date_time),
+         date = date(date_time),
+         year = year(date),
+         month = month(date)
+         )
+
+#Filter records from this decade
+obis_nc <- obis_nc %>%
+  filter(year>1999)
+
+#Replace NAs with 1 in group size
+obis_nc <- obis_nc %>% 
+  mutate(group_size = ifelse(is.na(group_size), 1, group_size))
+```
+
+
+```{r by year}
+obis_nc$year <- as.factor(obis_nc$year)
+obis_nc$month <- as.factor(obis_nc$month)
+
+obis_nc %>%
+  group_by(year) %>%
+  summarise(individuals = sum(group_size)) %>%
+  ggplot(aes(x=year, y=individuals)) +
+  geom_bar(stat="identity") +
+  labs(title = "2000-2019 Number of Cownose Rays in NC")
+```
+
+```{r by month}
+obis_nc %>%
+  group_by(month) %>%
+  summarise(individuals = sum(group_size)) %>%
+  ggplot(aes(x=month, y=individuals)) +
+  geom_bar(stat="identity") +
+  labs(title = "Monthly Number of Cownose Rays in NC")
+```
+
