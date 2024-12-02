@@ -10,7 +10,9 @@ Project Goals: This project aims to investigate the spatial and temporal distrib
 
 ## Investigators
 Vicky Fong, Master of Environmental Management student
+
 Nicholas School of the Environment, Duke University
+
 Contact: vicky.fong@duke.edu
 
 ## Keywords
