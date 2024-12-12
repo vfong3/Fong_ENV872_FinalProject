@@ -8,7 +8,7 @@ Why: Cownose rays are classified as a "Vulnerable" species on the IUCN Red List.
 
 Project Goals: This project aims to investigate the spatial and temporal distribution of cownose rays in North Carolina using open-source data.
 
-## Investigators
+## Investigator
 Vicky Fong, Master of Environmental Management student
 
 Nicholas School of the Environment, Duke University
@@ -19,13 +19,9 @@ Contact: vicky.fong@duke.edu
 cownose rays, spatial, temporal, distribution, North Carolina
 
 ## Database Information
-Database 1: OBIS-SEAMAP (https://seamap.env.duke.edu/species/160985)
+OBIS-SEAMAP (https://seamap.env.duke.edu/species/160985)
 - Open-source database on sharks, rays, turtles, seabirds and marine mammals 
 - 32,922 records from 66 datasets (government, academic, and private institutions) globally
-
-Database 2: iNaturalist (https://www.inaturalist.org/observations?place_id=30&quality_grade=research&subview=table&taxon_id=56770)
-- Open-source database of citizen science sightings
-- Will only use “Research Grade” sightings where animal species has been verified (46 sightings in North Carolina)
 
 ## Folder structure, file formats, and naming conventions
 Data
