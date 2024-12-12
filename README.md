@@ -1,5 +1,5 @@
 # Fong_ENV872_FinalProject
-ENV872 Final Project for Vicky Fong (Fall 2024)
+ENV872 Environmental Data Exploration - Final Project - Vicky Fong (Fall 2024)
 
 ## Summary
 Project Title: Spatial and Temporal Distribution of Cownose Rays (Rhinoptera bonasus) in North Carolina
