@@ -13,6 +13,18 @@ obis_nc <- read.csv(here('Data/Processed/obis_NC_2000-2019.csv'))
 ```
 
 Temporal Analysis
+```{r year numbers}
+obis_nc %>%
+  group_by(year) %>%
+  summarize(total_individuals = sum(group_size))
+```
+
+```{r month numbers}
+obis_nc %>%
+  group_by(month) %>%
+  summarize(total_individuals = sum(group_size))
+```
+
 ```{r by year}
 obis_nc$year <- as.factor(obis_nc$year)
 obis_nc$month <- as.factor(obis_nc$month)
@@ -49,95 +61,4 @@ obis_sf <- obis_nc %>%
   st_as_sf(coords = c('longitude','latitude'), crs=6318)
 
 mapview(obis_sf)
-```
-
-```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(obis_sf, 
-          cex = "group_size", legend=TRUE,
-          zcol = "month", col.regions=list('red','blue')
-          )
-```
-
-extract specific years to explore annual movement patterns (2018, 2019)
-```{r}
-obis_2015 <- obis_sf %>%
-  filter(year==2015)
-obis_2016 <- obis_sf %>%
-  filter(year==2016)
-obis_2018 <- obis_sf %>%
-  filter(year==2018)
-obis_2019 <- obis_sf %>%
-  filter(year==2019)
-```
-
-toggle year layers on and off to see specific year
-```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(obis_2015, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2016, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2018, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2019, 
-          cex = "group_size", legend=TRUE)
-```
-
-extract by month to see monthly movement patterns
-```{r}
-obis_mar <- obis_sf %>%
-  filter(month==3)
-obis_apr <- obis_sf %>%
-  filter(month==4)
-obis_may <- obis_sf %>%
-  filter(month==5)
-obis_jun <- obis_sf %>%
-  filter(month==6)
-obis_jul <- obis_sf %>%
-  filter(month==7)
-obis_aug <- obis_sf %>%
-  filter(month==8)
-obis_sep <- obis_sf %>%
-  filter(month==9)
-obis_oct <- obis_sf %>%
-  filter(month==10)
-obis_nov <- obis_sf %>%
-  filter(month==11)
-obis_dec <- obis_sf %>%
-  filter(month==12)
-```
-
-toggle month layers on and off to see specific month
-```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(obis_mar, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_apr, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_may, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_jun, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_jul, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_aug, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_sep, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_oct, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_nov, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_dec, 
-          cex = "group_size", legend=TRUE)
 ```
