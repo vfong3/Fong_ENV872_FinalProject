@@ -24,13 +24,13 @@ OBIS-SEAMAP (https://seamap.env.duke.edu/species/160985)
 - 32,922 records from 66 datasets (government, academic, and private institutions) globally
 
 ## Folder structure, file formats, and naming conventions
-Data
-- Raw
-- Processed
+Folders
+- Data/Raw: original datasets
+- Data/Processed: cleaned datasets
+- Code: R markdown files for each step of data pipeline
+- Output: final figures
 
-Code (R Markdown files)
-
-Output (figures)
+Naming convention: Fong_ENV872_FinalProject_[DescriptiveName]
 
 ## Metadata
 <For each data file in the repository, describe the data contained in each column.
