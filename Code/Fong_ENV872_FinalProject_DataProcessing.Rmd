@@ -10,7 +10,7 @@ here()
 
 ```{r load data}
 # Load data
-obis_raw <- read.csv(here('Data/Raw/obis_seamap_species_160985_points.csv'))
+obis_raw <- read.csv(here('Data/Raw/obis_seamap/obis_seamap_species_160985_points.csv'))
 ```
 
 ```{r clean data}
@@ -36,6 +36,6 @@ obis_nc <- obis_nc %>%
 ```
 
 ```{r export cleaned data}
-write_csv(obis_nc, here('Data/Processed/obis_NC_2000-2020.csv'))
+write_csv(obis_nc, here('Data/Processed/obis_NC_2000-2019.csv'))
 ```
 
