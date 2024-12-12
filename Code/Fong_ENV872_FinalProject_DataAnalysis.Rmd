@@ -1,0 +1,225 @@
+Data Analysis
+
+```{r setup}
+# Load your packages
+library(tidyverse); library(here); library(lubridate); library(sf); library(mapview); library(leaflet); library(trend); library(Kendall)
+
+# Set your working directory
+here()
+
+#Set theme
+my_theme <-  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    panel.background = element_rect(fill = "white", colour = NA), 
+    panel.border = element_rect(fill = NA, colour="grey50"), 
+    panel.grid.major = element_line(colour = "black", size = 0.01),
+    panel.grid.minor =  element_line(colour = "black", size = 0.01),
+    axis.text = element_text(size = 10),
+    axis.ticks = element_blank(),
+  )
+
+#Load data
+obis_nc <- read.csv(here('Data/Processed/obis_NC_2000-2019.csv'))
+```
+
+Temporal Analysis: Annual Trends
+```{r year graph}
+obis_nc$year <- as.factor(obis_nc$year)
+obis_nc$month <- as.factor(obis_nc$month)
+
+obis_nc %>%
+  group_by(year) %>%
+  summarise(individuals = sum(group_size)) %>%
+  ggplot(aes(x=year, y=individuals)) +
+  geom_bar(stat="identity") +
+  scale_x_discrete(guide = guide_axis(angle = 90)) +
+  labs(title = "Annual Sightings of Cownose Rays in North Carolina (2000-2019)",
+       x = "Year", y = "Number of Individuals") +
+  my_theme
+```
+
+```{r}
+obis_year <- obis_nc %>%
+  group_by(year) %>%
+  summarise(individuals = sum(group_size))
+
+obis_year$year <- as.numeric(as.character(obis_year$year))
+
+obis_year %>%
+  ggplot(aes(x = year, y = individuals)) +
+  geom_line() +
+  geom_smooth(method=lm, se=FALSE) +
+  labs(title = "Annual Sightings of Cownose Rays in North Carolina (2000-2019)",
+       x = "Year", y = "Number of Individuals") +
+  my_theme
+```
+```{r}
+year.regression <- lm(data = obis_year, individuals ~ year)
+summary(year.regression)
+```
+Significant increase in sightings between 2000 and 2019 as p-value <0.05, but R-squared suggests only 29.2% of variability is explained by year variable.
+
+
+Temporal analysis: monthly trends
+```{r month graph}
+obis_month <- obis_nc %>%
+  group_by(month) %>%
+  summarise(individuals = sum(group_size)) 
+
+month <- 1:2
+individuals <- 0
+df <- data.frame(month,individuals)
+obis_month_complete <- rbind(df, obis_month)
+
+obis_month_complete %>%
+  ggplot(aes(x=month, y=individuals)) +
+  geom_bar(stat="identity") +
+  labs(title = "Monthly Sightings of Cownose Rays in North Carolina (2000-2019)",
+       x = "Month", y = "Number of Individuals") +
+  scale_x_discrete(limits=c('1','2','3','4','5','6','7','8','9','10','11','12'),
+                   breaks = seq_along(month.abb), 
+                   labels = month.abb) +
+  my_theme
+```
+
+```{r}
+obis_month_complete$month <- as.numeric(as.character(obis_month_complete$month))
+
+obis_month_complete %>%
+  ggplot(aes(x = month, y = individuals)) +
+  geom_line() +
+  geom_smooth(method=lm) +
+  scale_x_continuous(n.breaks = 12) +
+  labs(title = "Monthly Sightings of Cownose Rays in North Carolina (2000-2019)",
+       x = "Month", y = "Number of Individuals") +
+  my_theme
+```
+```{r}
+month.regression <- lm(data = obis_month_complete, individuals ~ month)
+summary(month.regression)
+```
+
+GLM cannot determine monthly trends, continue using time series analysis
+
+Time Series Analysis
+```{r time series clean}
+obis_summary <- obis_nc %>%
+  group_by(year,month) %>%
+  summarize(individuals = sum(group_size))
+obis_summary$date = ymd(
+  paste(obis_summary$year, obis_summary$month, "1"))
+
+days <- data.frame(seq(as.Date("2000-01-01"),as.Date("2019-12-01"),by="1 month"))
+colnames(days) <- "date"
+
+obis_summary <- left_join(days, obis_summary)
+obis_summary <- obis_summary %>%
+  mutate(year = year(date), month = month(date)) %>%
+  mutate_all(~replace(., is.na(.), 0))
+```
+
+```{r time series analysis}
+f_month <- first(obis_summary$month)
+f_year <- first(obis_summary$year)
+
+obis_ts <- ts(obis_summary$individuals,
+                   start=c(f_year,f_month),
+                   frequency=12) 
+
+decomp <- stl(obis_ts,s.window = "periodic")
+plot(decomp)
+```
+
+```{r kendall}
+monthly_trend <- Kendall::SeasonalMannKendall(obis_ts)
+summary(monthly_trend)
+```
+
+```{r}
+monthly_trend2 <- trend::smk.test(obis_ts)
+summary(monthly_trend2)
+```
+Although the overall seasonal Mann-Kendall test had a p-value >0.05, indicating there is no overall monthly trend, breaking the time series analysis down into individual months revealed that the month of June has a significantly different number of sighings than other months as p-value was 0.016. The month of May had a p-value of 0.056, which is very close to the threshold of p<0.05, and suggests a possible significant difference for that month as well that warrants further investigation.
+
+
+Spatial Analysis
+```{r}
+mapview(nc_counties,
+        col.regions = 'lightyellow', 
+        alpha.regions = 0.2, 
+        map.types = "CartoDB.Positron") +
+  mapview(obis_sf, 
+          cex = "group_size", legend=TRUE,
+          zcol = "month", col.regions=list('red','blue')
+          )
+```
+
+Extract specific years with most sightings to explore annual movement patterns
+```{r}
+obis_2015 <- obis_sf %>%
+  filter(year==2015)
+obis_2016 <- obis_sf %>%
+  filter(year==2016)
+obis_2018 <- obis_sf %>%
+  filter(year==2018)
+obis_2019 <- obis_sf %>%
+  filter(year==2019)
+```
+
+Toggle year layers on and off to see specific year
+```{r}
+mapview(nc_counties,
+        col.regions = 'lightyellow', 
+        alpha.regions = 0.2, 
+        map.types = "CartoDB.Positron") +
+  mapview(obis_2015, 
+          cex = "group_size", legend=TRUE) +
+  mapview(obis_2016, 
+          cex = "group_size", legend=TRUE) +
+  mapview(obis_2018, 
+          cex = "group_size", legend=TRUE) +
+  mapview(obis_2019, 
+          cex = "group_size", legend=TRUE)
+```
+
+Extract by month to see monthly movement patterns
+```{r}
+Mar <- obis_sf %>%
+  filter(month==3)
+Apr <- obis_sf %>%
+  filter(month==4)
+May <- obis_sf %>%
+  filter(month==5)
+Jun <- obis_sf %>%
+  filter(month==6)
+Jul <- obis_sf %>%
+  filter(month==7)
+Aug <- obis_sf %>%
+  filter(month==8)
+Sep <- obis_sf %>%
+  filter(month==9)
+Oct <- obis_sf %>%
+  filter(month==10)
+Nov <- obis_sf %>%
+  filter(month==11)
+Dec <- obis_sf %>%
+  filter(month==12)
+```
+
+toggle month layers on and off to see specific month
+```{r}
+mapview(nc_counties,
+        col.regions = 'lightyellow', 
+        alpha.regions = 0.2, 
+        map.types = "CartoDB.Positron") +
+  mapview(Mar, cex = "group_size", legend=TRUE) +
+  mapview(Apr, cex = "group_size", legend=TRUE) +
+  mapview(May, cex = "group_size", legend=TRUE) +
+  mapview(Jun, cex = "group_size", legend=TRUE) +
+  mapview(Jul, cex = "group_size", legend=TRUE) +
+  mapview(Aug, cex = "group_size", legend=TRUE) +
+  mapview(Sep, cex = "group_size", legend=TRUE) +
+  mapview(Oct, cex = "group_size", legend=TRUE) +
+  mapview(Nov, cex = "group_size", legend=TRUE) +
+  mapview(Dec, cex = "group_size", legend=TRUE)
+```
