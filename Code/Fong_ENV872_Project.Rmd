@@ -105,7 +105,7 @@ obis_sf <- obis_nc %>%
 ```
 
 **Map 1.** Locations of Cownose Ray Sightings in North Carolina
-```{r Map1}
+```{r Map1, echo=FALSE}
 mapview(obis_sf, map.types = "CartoDB.Positron")
 ```
 
@@ -133,7 +133,7 @@ fig3
 ```
 
 **Figure 4.** Generalized Linear Model for Annual Sightings of Cownose Rays in North Carolina (2000-2019)
-```{r Figure4, echo=FALSE}
+```{r Figure4, echo=FALSE, warning=FALSE, message=FALSE}
 obis_year <- obis_nc %>%
   group_by(year) %>%
   summarise(individuals = sum(group_size))
@@ -181,7 +181,7 @@ fig5
 ```
 
 **Figure 6.** Time Series Analysis
-```{r Figure6, echo=FALSE}
+```{r Figure6, echo=FALSE, warning=FALSE, message=FALSE}
 obis_summary <- obis_nc %>%
   group_by(year,month) %>%
   summarize(individuals = sum(group_size))
@@ -220,67 +220,6 @@ summary(monthly_trend2)
 
 ## Question 2: Spatial distribution of cownose rays in North Carolina
 Interactive maps will be used to analyze the spatial distribution of cownose rays observed in North Carolina between 2000 and 2019. No clear trends in spatial distribution was observed in Map 2, thus specific years with the greatest number of individuals observed were extracted to further explore annual movement patterns. Sightings from 2015 and 2016 were concentrated towards the state's northern boundary, while sightings from 2018 and 2019 were distributed along the entire state's coastline (Map 3). Since earlier analysis revealed a seasonal component to cownose ray sightings in North Carolina, monthly movement patterns were also explored. Cownose rays were observed all along the state's coastline in the month of May, and concentrated towards the northern boundary in the month of June (Map 4).
-
-**Map 2.** Number of cownose ray individuals observed in North Carolina (2000-2019) color coded by month. The size of the circle represents the number of individuals observed at that location.
-```{r Map2}
-mapview(obis_sf, 
-          cex = "group_size", legend=TRUE,
-          zcol = "month",
-          map.types = "CartoDB.Positron"
-          )
-```
-
-**Map 3.** Number of cownose ray individuals observed in North Carolina for years 2015, 2016, 2018 and 2019.  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view year-specific layers individually to compare between years.
-```{r Map3}
-obis_2015 <- obis_sf %>%
-  filter(year==2015)
-obis_2016 <- obis_sf %>%
-  filter(year==2016)
-obis_2018 <- obis_sf %>%
-  filter(year==2018)
-obis_2019 <- obis_sf %>%
-  filter(year==2019)
-
-mapview(obis_2015, cex = "group_size", legend=TRUE, map.types = "CartoDB.Positron") +
-mapview(obis_2016, cex = "group_size", legend=TRUE) +
-mapview(obis_2018, cex = "group_size", legend=TRUE) +
-mapview(obis_2019, cex = "group_size", legend=TRUE)
-```
-
-**Map 4.** Number of cownose ray individuals observed in North Carolina by month (2000-2019).  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view month-specific layers individually to compare between months.
-```{r Map4}
-Mar <- obis_sf %>%
-  filter(month==3)
-Apr <- obis_sf %>%
-  filter(month==4)
-May <- obis_sf %>%
-  filter(month==5)
-Jun <- obis_sf %>%
-  filter(month==6)
-Jul <- obis_sf %>%
-  filter(month==7)
-Aug <- obis_sf %>%
-  filter(month==8)
-Sep <- obis_sf %>%
-  filter(month==9)
-Oct <- obis_sf %>%
-  filter(month==10)
-Nov <- obis_sf %>%
-  filter(month==11)
-Dec <- obis_sf %>%
-  filter(month==12)
-
-mapview(Mar, cex = "group_size", legend=TRUE, map.types = "CartoDB.Positron") +
-mapview(Apr, cex = "group_size", legend=TRUE) +
-mapview(May, cex = "group_size", legend=TRUE) +
-mapview(Jun, cex = "group_size", legend=TRUE) +
-mapview(Jul, cex = "group_size", legend=TRUE) +
-mapview(Aug, cex = "group_size", legend=TRUE) +
-mapview(Sep, cex = "group_size", legend=TRUE) +
-mapview(Oct, cex = "group_size", legend=TRUE) +
-mapview(Nov, cex = "group_size", legend=TRUE) +
-mapview(Dec, cex = "group_size", legend=TRUE)
-```
 
 # Summary and Conclusions
 Overall, observations of cownose rays have increased from 2000 to 2019, with the greatest number of individuals observed in 2019. This suggests that cownose ray populations might be recovering after the targeted campaigns started declining with the publication of the rebuttal paper in 2016 (Grubbs et al.). Since cownose rays are a slow-reproducing species, it might take a few more years for full extent of the species' recovery to be evident, warranting further long-term research. Seasonal analysis revealed the greatest number of cownose rays in the months of May and June, which is consistent with previous research that found greater abundances in late spring and summer months (Goodman et al. 2010). 
