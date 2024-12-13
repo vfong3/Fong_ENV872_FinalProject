@@ -28,6 +28,7 @@ Folders
 - Data/Raw: original datasets
 - Data/Processed: cleaned datasets
 - Code: R markdown files for each step of data pipeline and final project page, HTML of final project page, images included in final project page
+-Output: final figures (maps are not included in this folder as interactive maps are embedded in the final project page)
 
 File naming convention: Fong_ENV872_FinalProject_[DescriptiveName]
 
@@ -36,7 +37,6 @@ obis_seamap_species_160985_points.csv (only the following columns were used in t
 - latitude, longitude: location of sighting
 - group_size: number of individuals observed
 - date_time: date and time observed
-
 
 ## Scripts and code
 - Fong_ENV872_FinalProject_DataProcessing.Rmd (Code for data processing and cleaning)

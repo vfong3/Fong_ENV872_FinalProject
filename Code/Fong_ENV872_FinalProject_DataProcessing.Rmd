@@ -33,6 +33,10 @@ obis_nc <- obis_nc %>%
 #Replace NAs with 1 in group size (making an assumption that most sightings without number of individuals noted can be considered singular sightings)
 obis_nc <- obis_nc %>% 
   mutate(group_size = ifelse(is.na(group_size), 1, group_size))
+
+#Select necessary columns
+obis_nc <- obis_nc %>% 
+  select(latitude, longitude, group_size, date, year, month)
 ```
 
 ```{r export cleaned data}

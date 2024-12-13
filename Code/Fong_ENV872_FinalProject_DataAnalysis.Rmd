@@ -48,7 +48,7 @@ obis_year$year <- as.numeric(as.character(obis_year$year))
 obis_year %>%
   ggplot(aes(x = year, y = individuals)) +
   geom_line() +
-  geom_smooth(method=lm, se=FALSE) +
+  geom_smooth(method=lm) +
   labs(title = "Annual Sightings of Cownose Rays in North Carolina (2000-2019)",
        x = "Year", y = "Number of Individuals") +
   my_theme
@@ -99,7 +99,7 @@ month.regression <- lm(data = obis_month_complete, individuals ~ month)
 summary(month.regression)
 ```
 
-GLM cannot determine monthly trends, continue using time series analysis
+GLM cannot determine monthly trends, continue using time series analysis.
 
 Time Series Analysis
 ```{r time series clean}
@@ -143,12 +143,19 @@ Although the overall seasonal Mann-Kendall test had a p-value >0.05, indicating 
 
 
 Spatial Analysis
+```{r convert to sf}
+obis_nc <- obis_nc %>%
+  mutate_if(is.character, as.factor)
+
+obis_sf <- obis_nc %>%
+  st_as_sf(coords = c('longitude','latitude'), crs=4326) %>%
+  st_transform(epgs = 32617)
+
+mapview(obis_sf)
+```
+
 ```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(obis_sf, 
+mapview(obis_sf, 
           cex = "group_size", legend=TRUE,
           zcol = "month", col.regions=list('red','blue')
           )
@@ -168,18 +175,10 @@ obis_2019 <- obis_sf %>%
 
 Toggle year layers on and off to see specific year
 ```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(obis_2015, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2016, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2018, 
-          cex = "group_size", legend=TRUE) +
-  mapview(obis_2019, 
-          cex = "group_size", legend=TRUE)
+mapview(obis_2015, cex = "group_size", legend=TRUE) +
+mapview(obis_2016, cex = "group_size", legend=TRUE) +
+mapview(obis_2018, cex = "group_size", legend=TRUE) +
+mapview(obis_2019, cex = "group_size", legend=TRUE)
 ```
 
 Extract by month to see monthly movement patterns
@@ -208,18 +207,14 @@ Dec <- obis_sf %>%
 
 toggle month layers on and off to see specific month
 ```{r}
-mapview(nc_counties,
-        col.regions = 'lightyellow', 
-        alpha.regions = 0.2, 
-        map.types = "CartoDB.Positron") +
-  mapview(Mar, cex = "group_size", legend=TRUE) +
-  mapview(Apr, cex = "group_size", legend=TRUE) +
-  mapview(May, cex = "group_size", legend=TRUE) +
-  mapview(Jun, cex = "group_size", legend=TRUE) +
-  mapview(Jul, cex = "group_size", legend=TRUE) +
-  mapview(Aug, cex = "group_size", legend=TRUE) +
-  mapview(Sep, cex = "group_size", legend=TRUE) +
-  mapview(Oct, cex = "group_size", legend=TRUE) +
-  mapview(Nov, cex = "group_size", legend=TRUE) +
-  mapview(Dec, cex = "group_size", legend=TRUE)
+mapview(Mar, cex = "group_size", legend=TRUE) +
+mapview(Apr, cex = "group_size", legend=TRUE) +
+mapview(May, cex = "group_size", legend=TRUE) +
+mapview(Jun, cex = "group_size", legend=TRUE) +
+mapview(Jul, cex = "group_size", legend=TRUE) +
+mapview(Aug, cex = "group_size", legend=TRUE) +
+mapview(Sep, cex = "group_size", legend=TRUE) +
+mapview(Oct, cex = "group_size", legend=TRUE) +
+mapview(Nov, cex = "group_size", legend=TRUE) +
+mapview(Dec, cex = "group_size", legend=TRUE)
 ```

@@ -31,34 +31,30 @@ obis_nc$month <- as.factor(obis_nc$month)
 
 obis_nc %>%
   group_by(year) %>%
-  summarise(individuals = sum(group_size)) %>%
-  ggplot(aes(x=year, y=individuals)) +
+  summarise(count = n()) %>%
+  ggplot(aes(x=year, y=count)) +
   geom_bar(stat="identity") +
-  labs(title = "2000-2019 Number of Cownose Rays in NC")
+  scale_x_discrete(guide = guide_axis(angle = 90)) +
+  labs(title = "2000-2019 NC Cownose Ray Sightings")
 ```
 
 ```{r by month}
 obis_nc %>%
   group_by(month) %>%
-  summarise(individuals = sum(group_size)) %>%
-  ggplot(aes(x=month, y=individuals)) +
+  summarise(count = n()) %>%
+  ggplot(aes(x=month, y=count)) +
   geom_bar(stat="identity") +
-  labs(title = "Monthly Number of Cownose Rays in NC")
+  labs(title = "2000-2019 NC Cownose Ray Sightings by Month")
 ```
 
 Spatial analysis
-```{r nc counties}
-nc_counties <- st_read(here('Data/Raw/Spatial/North_Carolina_State_and_County_Boundary_Polygons.shp'))
-st_crs(nc_counties)
-mapview(nc_counties)
-```
-
 ```{r convert to sf}
 obis_nc <- obis_nc %>%
   mutate_if(is.character, as.factor)
 
 obis_sf <- obis_nc %>%
-  st_as_sf(coords = c('longitude','latitude'), crs=6318)
+  st_as_sf(coords = c('longitude','latitude'), crs=4326) %>%
+  st_transform(epgs = 32617)
 
 mapview(obis_sf)
 ```
