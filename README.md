@@ -33,9 +33,12 @@ Folders
 Naming convention: Fong_ENV872_FinalProject_[DescriptiveName]
 
 ## Metadata
-<For each data file in the repository, describe the data contained in each column.
-Include the column name, a description of the information, the class of data, and
-any units associated with the data. Create a list or table for each data file.>
+obis_seamap_species_160985_points.csv (only the following columns were used in this analysis:)
+- latitude, longitude: location of sighting
+- species_name, scientific_name, common_name: species identifiers
+- group_size: number of individuals observed
+- date_time: date and time observed
+
 
 ## Scripts and code
 <list any software scripts/code contained in the repository and a description of

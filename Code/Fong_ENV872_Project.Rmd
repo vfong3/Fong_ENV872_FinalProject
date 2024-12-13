@@ -1,0 +1,116 @@
+---
+title: "Spatial and Temporal Distribution of Cownose Rays (Rhinoptera bonasus) in North Carolina"
+author: "Vicky Fong"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
+```{r setup, include=FALSE}
+# Set your working directory
+here()
+
+# Load your packages
+library(tidyverse); library(here); library(lubridate); library(sf); library(mapview); library(leaflet); library(trend); library(Kendall)
+
+# Set your ggplot theme
+my_theme <-  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    panel.background = element_rect(fill = "white", colour = NA), 
+    panel.border = element_rect(fill = NA, colour="grey50"), 
+    panel.grid.major = element_line(colour = "black", size = 0.01),
+    panel.grid.minor =  element_line(colour = "black", size = 0.01),
+    axis.text = element_text(size = 10),
+    axis.ticks = element_blank()
+  )
+
+# Load your datasets
+obis_raw <- read.csv(here('Data/Raw/obis_seamap/obis_seamap_species_160985_points.csv'))
+```
+
+
+# Rationale and Research Questions
+
+![Fever of cownose rays swimming near the surface. (Image credit: Chesapeake Bay Journal)](here(Media\5e499baed0c05.image.jpg))
+
+Cownose rays (*Rhinoptera bonasus*) are considered a 'Vulnerable' species by the IUCN Red List globally due to over-fishing (Carlson et al. 2020). In the United States specifically, cownose rays have had a long history of negative interactions with commercial shellfish industries, specifically oyster aquaculture in the Chesapeake Bay, Maryland and bay scallop fisheries in North Carolina (NC Division of Marine Fisheries 2007). This conflict was further exacerbated by a study published in 2007 claiming that top-down predation release was responsible for shellfish decline (Myers et al. 2007), which led to the formation of “Save the Bay, Eat a Ray” campaigns to facilitate recovery of oyster populations in Chesapeake Bay. In 2016, Grubbs et al. rebutted the trophic cascade and the implication that cownose rays caused the collapse of shellfish populations, warning the risk of overexploitation of the slow-reproducing species.
+
+![Dead cownose rays from “Save the Bay, Eat a Ray” campaigns. (Image credit: Discover Magazine)](here(Media\cownose_rays_dead-1024x683.jpg))
+
+This project aims to investigate the temporal and spatial distribution of cownose rays in North Carolina using open-source data. North Carolina was chosen as the study location as there has been minimal research on cownose rays in the state. The only recent study found higher occurences of cownose rays in late spring and summer months between 2004 and 2006 (Goodman et al. 2010), but no follow-up work has been conducted. This project will investigate the following questions:
+  1. What is the temporal distribution of cownose rays in North Carolina? 
+    1a. What are the annual trends? Did sightings increase after “Save the Bay, Eat a Ray” campaigns were no longer encouraged following the 2016 study?
+    1b. What are the seasonal trends?
+  2. What is the spatial distribution of cownose rays in North Carolina?
+    2a. Are there seasonal trends in spatial distribution?
+
+\newpage
+
+# Dataset Information
+Sightings of cownose rays were obtained from OBIS-SEAMAP (https://seamap.env.duke.edu/), an open-source database for sharks, rays, turtles, seabirds and marine mammals (Halpin et al. 2009). A search for cownose rays resulted in 32,922 records from 66 datasets (government, academic, and private institutions) globally. Since there are no long term studies on cownose rays, these data were collected opportunistically and survey efforts were not standardized. 
+
+**Table 1.** Dataset Information
+| Detail | Description |
+|-------:|:------------|
+| Data Source | OBIS-SEAMAP |
+| Retrieved From | https://seamap.env.duke.edu/species/160985|
+| Variables Used | latitude, longitude, group_size, date_time |
+| Date Range | 2000-2019 |
+
+North Carolina sightings were filtered from the global dataset using the state's northern (36.588056) and southern (33.843056) latitudinal boundaries. Year, month, and date were extracted from the date_time column, then filtered to only contain sightings since the year 2000. A cleaned dataset was then created with only the necessary columns for this analysis (latitude, longitude, group_size, date, month, year). The spatial data was provided in the WGS 1984 datum and transformed to UTM Zone 17N for geospatial analysis. 
+
+\newpage
+
+# Exploratory Analysis 
+
+Insert exploratory visualizations of your dataset. This may include, but is not limited to, graphs illustrating the distributions of variables of interest and/or maps of the spatial context of your dataset. Format your R chunks so that graphs are displayed but code is not displayed. Accompany these graphs with text sections that describe the visualizations and provide context for further analyses.
+
+Each figure should be accompanied by a caption, and each figure should be referenced within the text.
+
+Scope: think about what information someone might want to know about the dataset before analyzing it statistically. How might you visualize this information?
+
+\newpage
+
+# Analysis
+
+Insert visualizations and text describing your main analyses. Format your R chunks so that graphs are displayed but code and other output is not displayed. Instead, describe the results of any statistical tests in the main text (e.g., “Variable x was significantly different among y groups (ANOVA; df = 300, F = 5.55, p < 0.0001)”). Each paragraph, accompanied by one or more visualizations, should describe the major findings and how they relate to the question and hypotheses. Divide this section into subsections, one for each research question.
+
+Each figure should be accompanied by a caption, and each figure should be referenced within the text
+
+
+## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+
+## Question 2: 
+
+
+
+
+\newpage
+
+# Summary and Conclusions
+
+Summarize your major findings from your analyses in a few paragraphs. What conclusions do you draw from your findings? Relate your findings back to the original research questions and rationale.
+
+\newpage
+
+# References
+Halpin, P.N., A.J. Read, E. Fujioka, B.D. Best, B. Donnelly, L.J. Hazen, C. Kot, K. Urian, E. LaBrecque, A. Dimatteo, J. Cleary, C. Good, L.B. Crowder, and K.D. Hyrenbach. 2009. OBIS-SEAMAP: The world data center for marine mammal, sea bird, and sea turtle distributions. Oceanography 22(2):104-115
+
+Carlson, J., Charvet, P., Avalos, C., Blanco-Parra, MP, Briones Bell-lloch, A., Cardenosa, D., Crysler, Z., Derrick, D., Espinoza, E., Morales-Saldaña, J.M., Naranjo-Elizondo, B., Pacoureau, N., Pérez Jiménez, J.C., Schneider, E.V.C., Simpson, N.J. & Dulvy, N.K. 2020. Rhinoptera bonasus. The IUCN Red List of Threatened Species 2020: e.T60128A3088381. https://dx.doi.org/10.2305/IUCN.UK.2020-3.RLTS.T60128A3088381.en. Accessed on 13 December 2024.
+
+NC Division of Marine Fisheries. (2007). North Carolina bay scallop fishery management plan [Review of North Carolina bay scallop fishery management plan]. In North Carolina Digital Collections (pp. 1–199). NC Division of Marine Fisheries. https://digital.ncdcr.gov/Documents/Detail/north-carolina-bay-scallop-fishery-management-plan-2005-july-2007-november/3702997
+
+Myers, R. A., Baum, J. K., Shepherd, T. D., Powers, S. P., & Peterson, C. H. (2007). Cascading Effects of the Loss of Apex Predatory Sharks from a Coastal Ocean. Science, 315(5820), 1846–1850. https://doi.org/10.1126/science.1138657
+
+Grubbs, R. D., Carlson, J. K., Romine, J. G., Curtis, T. H., McElroy, W. D., McCandless, C. T., Cotton, C. F., & Musick, J. A. (2016). Critical assessment and ramifications of a purported marine trophic cascade. Scientific Reports, 6(1). https://doi.org/10.1038/srep20970
+
+Goodman, M. A., Conn, P. B., & Fitzpatrick, E. (2010). Seasonal Occurrence of Cownose Rays (Rhinoptera bonasus) in North Carolina’s Estuarine and Coastal Waters. Estuaries and Coasts, 34(3), 640–651. https://doi.org/10.1007/s12237-010-9355-5
+
