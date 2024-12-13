@@ -5,7 +5,8 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-Github repository: "https://github.com/vfong3/Fong_ENV872_FinalProject/"
+
+https://github.com/vfong3/Fong_ENV872_FinalProject
 
 ```{r setup, include=FALSE}
 # Load your packages
@@ -67,7 +68,7 @@ North Carolina sightings were filtered from the global dataset using the state's
 Initial explorations into the temporal distrbution of cownose rays in North Carolina focused on visualizing the number of sightings by year (Fig. 1) and month (Fig. 2). Initial exploration of spatial distribution mapped the location of each sighting (Map 1).
 
 **Figure 1.** Number of Cownose Ray Sightings in North Carolina by Year (2000-2019)
-```{r Figure 1, echo=FALSE}
+```{r Figure1, echo=FALSE}
 obis_nc$year <- as.factor(obis_nc$year)
 obis_nc$month <- as.factor(obis_nc$month)
 
@@ -83,7 +84,7 @@ fig1
 ```
 
 **Figure 2.** Number of Cownose Ray Sightings in North Carolina by Month (2000-2019)
-```{r Figure 2, echo=FALSE}
+```{r Figure2, echo=FALSE}
 fig2 <- obis_nc %>%
   group_by(month) %>%
   summarise(count = n()) %>%
@@ -94,7 +95,7 @@ fig2 <- obis_nc %>%
 fig2
 ```
 
-```{r Map 1 code, include=FALSE}
+```{r Map1code, include=FALSE}
 obis_nc <- obis_nc %>%
   mutate_if(is.character, as.factor)
 
@@ -104,7 +105,7 @@ obis_sf <- obis_nc %>%
 ```
 
 **Map 1.** Locations of Cownose Ray Sightings in North Carolina
-```{r Map 1}
+```{r Map1}
 mapview(obis_sf, map.types = "CartoDB.Positron")
 ```
 
@@ -115,7 +116,7 @@ mapview(obis_sf, map.types = "CartoDB.Positron")
 To explore annual variations of cownose ray abundance in North Carolina, the number of individuals was used in the following formal analysis instead of the number of sightings. 2019 had the greatest number of individuals seen, followed by 2016, 2018 and 2015 (Fig. 3). There was an overall significant increase in the number of cownose ray individuals observed in North Carolina between 2000 and 2019 (Fig. 4; GLM; p-value < 0.05, df = 18, std. error = 133.9). However, only 29.2% of the variable was explained by year, which warrants further investigation into seasonal trends of cownose ray distribution.
 
 **Figure 3.** Annual Sightings of Cownose Rays in North Carolina (2000-2019)
-```{r Figure 3, echo=FALSE}
+```{r Figure3, echo=FALSE}
 obis_nc$year <- as.factor(obis_nc$year)
 obis_nc$month <- as.factor(obis_nc$month)
 
@@ -132,7 +133,7 @@ fig3
 ```
 
 **Figure 4.** Generalized Linear Model for Annual Sightings of Cownose Rays in North Carolina (2000-2019)
-```{r Figure 4, echo=FALSE}
+```{r Figure4, echo=FALSE}
 obis_year <- obis_nc %>%
   group_by(year) %>%
   summarise(individuals = sum(group_size))
@@ -157,7 +158,7 @@ summary(year.regression)
 The greatest number of cownose ray individuals were observed in the month of June, followed by May then August (Fig. 5). Time series analysis was used to investigate potential seasonal trends of cownose ray distribution (Fig. 6). Although the overall seasonal Mann-Kendall test had a p-value >0.05, indicating no overall monthly trend, breaking the time series analysis down into individual months revealed that the month of June has a significantly different number of individuals observed than other months (p-value=0.016). The month of May had a p-value of 0.056, which is very close to the threshold of p<0.05, and suggests a possible significant difference for that month as well that warrants further investigation.
 
 **Figure 5.** Monthly Sightings of Cownose Rays in North Carolina (2000-2019)
-```{r Figure 5, echo=FALSE}
+```{r Figure5, echo=FALSE}
 obis_month <- obis_nc %>%
   group_by(month) %>%
   summarise(individuals = sum(group_size)) 
@@ -180,7 +181,7 @@ fig5
 ```
 
 **Figure 6.** Time Series Analysis
-```{r Figure 6, echo=FALSE}
+```{r Figure6, echo=FALSE}
 obis_summary <- obis_nc %>%
   group_by(year,month) %>%
   summarize(individuals = sum(group_size))
@@ -221,7 +222,7 @@ summary(monthly_trend2)
 Interactive maps will be used to analyze the spatial distribution of cownose rays observed in North Carolina between 2000 and 2019. No clear trends in spatial distribution was observed in Map 2, thus specific years with the greatest number of individuals observed were extracted to further explore annual movement patterns. Sightings from 2015 and 2016 were concentrated towards the state's northern boundary, while sightings from 2018 and 2019 were distributed along the entire state's coastline (Map 3). Since earlier analysis revealed a seasonal component to cownose ray sightings in North Carolina, monthly movement patterns were also explored. Cownose rays were observed all along the state's coastline in the month of May, and concentrated towards the northern boundary in the month of June (Map 4).
 
 **Map 2.** Number of cownose ray individuals observed in North Carolina (2000-2019) color coded by month. The size of the circle represents the number of individuals observed at that location.
-```{r Map 2}
+```{r Map2}
 mapview(obis_sf, 
           cex = "group_size", legend=TRUE,
           zcol = "month",
@@ -230,7 +231,7 @@ mapview(obis_sf,
 ```
 
 **Map 3.** Number of cownose ray individuals observed in North Carolina for years 2015, 2016, 2018 and 2019.  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view year-specific layers individually to compare between years.
-```{r Map 3}
+```{r Map3}
 obis_2015 <- obis_sf %>%
   filter(year==2015)
 obis_2016 <- obis_sf %>%
@@ -247,7 +248,7 @@ mapview(obis_2019, cex = "group_size", legend=TRUE)
 ```
 
 **Map 4.** Number of cownose ray individuals observed in North Carolina by month (2000-2019).  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view month-specific layers individually to compare between months.
-```{r Map 4}
+```{r Map4}
 Mar <- obis_sf %>%
   filter(month==3)
 Apr <- obis_sf %>%
@@ -282,9 +283,11 @@ mapview(Dec, cex = "group_size", legend=TRUE)
 ```
 
 # Summary and Conclusions
+Overall, observations of cownose rays have increased from 2000 to 2019, with the greatest number of individuals observed in 2019. This suggests that cownose ray populations might be recovering after the targeted campaigns started declining with the publication of the rebuttal paper in 2016 (Grubbs et al.). Since cownose rays are a slow-reproducing species, it might take a few more years for full extent of the species' recovery to be evident, warranting further long-term research. Seasonal analysis revealed the greatest number of cownose rays in the months of May and June, which is consistent with previous research that found greater abundances in late spring and summer months (Goodman et al. 2010). 
 
-Summarize your major findings from your analyses in a few paragraphs. What conclusions do you draw from your findings? Relate your findings back to the original research questions and rationale.
+No clear trends in spatial distribution were overall, but further analysis into specific years revealed a possible range extension southwards as sightings from 2015 and 2016 were concentrated towards the state's northern boundary, while sightings from 2018 and 2019 were distributed along the entire state's coastline. Since May and June had significantly greater number of individuals sighted, increased survey efforts could be conducted these months to better understand their habitat use. Cownose rays were observed all along the state's coastline in the month of May, and concentrated towards the northern boundary in the month of June, which could suggest a northward migration as water temperatures increase in the summer.
 
+There are limitations to this study, however, since the sightings were opportunistic and survey efforts were not standardized. This warrants a formal investigation of cownose ray abundance across the state of North Carolina through standardized manned or unmanned aerial surveys. Further investigations could also include environmental parameters such as water temperature, pH and salinity to investigate environmental impacts on spatial and temporal distribution of cownose rays, and how climate change could impact the distribution of the species moving forward.
 
 # References
 Halpin, P.N., A.J. Read, E. Fujioka, B.D. Best, B. Donnelly, L.J. Hazen, C. Kot, K. Urian, E. LaBrecque, A. Dimatteo, J. Cleary, C. Good, L.B. Crowder, and K.D. Hyrenbach. 2009. OBIS-SEAMAP: The world data center for marine mammal, sea bird, and sea turtle distributions. Oceanography 22(2):104-115
