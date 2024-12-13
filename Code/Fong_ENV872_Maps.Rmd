@@ -1,0 +1,104 @@
+---
+title: "Maps"
+author: "Vicky Fong"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Load your packages
+library(tidyverse); library(here); library(lubridate); library(sf); library(mapview); library(leaflet); library(trend); library(Kendall); library(knitr)
+
+# Set your working directory
+setwd(here())
+
+# Set your ggplot theme
+my_theme <-  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    panel.background = element_rect(fill = "white", colour = NA), 
+    panel.border = element_rect(fill = NA, colour="grey50"), 
+    panel.grid.major = element_line(colour = "black", size = 0.01),
+    panel.grid.minor =  element_line(colour = "black", size = 0.01),
+    axis.text = element_text(size = 10),
+    axis.ticks = element_blank()
+  )
+
+# Load your datasets
+obis_nc <- read.csv(here('Data/Processed/obis_NC_2000-2019.csv'))
+```
+
+```{r Map1code, include=FALSE}
+obis_nc <- obis_nc %>%
+  mutate_if(is.character, as.factor)
+
+obis_sf <- obis_nc %>%
+  st_as_sf(coords = c('longitude','latitude'), crs=4326) %>%
+  st_transform(epgs = 32617)
+```
+
+**Map 2.** Number of cownose ray individuals observed in North Carolina (2000-2019) color coded by month. The size of the circle represents the number of individuals observed at that location.
+```{r Map2, echo=FALSE}
+mapview(obis_sf, 
+          cex = "group_size", legend=TRUE,
+          zcol = "month",
+          map.types = "CartoDB.Positron"
+          )
+```
+
+```{r Map3code, include=FALSE}
+obis_2015 <- obis_sf %>%
+  filter(year==2015)
+obis_2016 <- obis_sf %>%
+  filter(year==2016)
+obis_2018 <- obis_sf %>%
+  filter(year==2018)
+obis_2019 <- obis_sf %>%
+  filter(year==2019)
+```
+
+**Map 3.** Number of cownose ray individuals observed in North Carolina for years 2015, 2016, 2018 and 2019.  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view year-specific layers individually to compare between years.
+```{r Map3, echo=FALSE}
+mapview(obis_2015, cex = "group_size", legend=TRUE, map.types = "CartoDB.Positron") +
+mapview(obis_2016, cex = "group_size", legend=TRUE) +
+mapview(obis_2018, cex = "group_size", legend=TRUE) +
+mapview(obis_2019, cex = "group_size", legend=TRUE)
+```
+
+```{r Map4code, include=FALSE}
+Mar <- obis_sf %>%
+  filter(month==3)
+Apr <- obis_sf %>%
+  filter(month==4)
+May <- obis_sf %>%
+  filter(month==5)
+Jun <- obis_sf %>%
+  filter(month==6)
+Jul <- obis_sf %>%
+  filter(month==7)
+Aug <- obis_sf %>%
+  filter(month==8)
+Sep <- obis_sf %>%
+  filter(month==9)
+Oct <- obis_sf %>%
+  filter(month==10)
+Nov <- obis_sf %>%
+  filter(month==11)
+Dec <- obis_sf %>%
+  filter(month==12)
+```
+
+
+**Map 4.** Number of cownose ray individuals observed in North Carolina by month (2000-2019).  The size of the circle represents the number of individuals observed at that location. Click on the legend icon on the left side to view month-specific layers individually to compare between months.
+```{r Map4, echo=FALSE}
+mapview(Mar, cex = "group_size", legend=TRUE, map.types = "CartoDB.Positron") +
+mapview(Apr, cex = "group_size", legend=TRUE) +
+mapview(May, cex = "group_size", legend=TRUE) +
+mapview(Jun, cex = "group_size", legend=TRUE) +
+mapview(Jul, cex = "group_size", legend=TRUE) +
+mapview(Aug, cex = "group_size", legend=TRUE) +
+mapview(Sep, cex = "group_size", legend=TRUE) +
+mapview(Oct, cex = "group_size", legend=TRUE) +
+mapview(Nov, cex = "group_size", legend=TRUE) +
+mapview(Dec, cex = "group_size", legend=TRUE)
+```

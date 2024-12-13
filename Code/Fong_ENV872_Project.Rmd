@@ -218,8 +218,11 @@ monthly_trend2 <- trend::smk.test(obis_ts)
 summary(monthly_trend2)
 ```
 
+
 ## Question 2: Spatial distribution of cownose rays in North Carolina
 Interactive maps will be used to analyze the spatial distribution of cownose rays observed in North Carolina between 2000 and 2019. No clear trends in spatial distribution was observed in Map 2, thus specific years with the greatest number of individuals observed were extracted to further explore annual movement patterns. Sightings from 2015 and 2016 were concentrated towards the state's northern boundary, while sightings from 2018 and 2019 were distributed along the entire state's coastline (Map 3). Since earlier analysis revealed a seasonal component to cownose ray sightings in North Carolina, monthly movement patterns were also explored. Cownose rays were observed all along the state's coastline in the month of May, and concentrated towards the northern boundary in the month of June (Map 4).
+
+[Due to the large size of the Maps 2, 3, and 4, the html document will not function properly when they are embedded in this document. Please refer to 'Fong_ENV872_Maps.html' to view the interactive maps.]
 
 # Summary and Conclusions
 Overall, observations of cownose rays have increased from 2000 to 2019, with the greatest number of individuals observed in 2019. This suggests that cownose ray populations might be recovering after the targeted campaigns started declining with the publication of the rebuttal paper in 2016 (Grubbs et al.). Since cownose rays are a slow-reproducing species, it might take a few more years for full extent of the species' recovery to be evident, warranting further long-term research. Seasonal analysis revealed the greatest number of cownose rays in the months of May and June, which is consistent with previous research that found greater abundances in late spring and summer months (Goodman et al. 2010). 
