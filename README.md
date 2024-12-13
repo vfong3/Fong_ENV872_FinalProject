@@ -27,19 +27,20 @@ OBIS-SEAMAP (https://seamap.env.duke.edu/species/160985)
 Folders
 - Data/Raw: original datasets
 - Data/Processed: cleaned datasets
-- Code: R markdown files for each step of data pipeline
-- Output: final figures
+- Code: R markdown files for each step of data pipeline and final project page, HTML of final project page, images included in final project page
 
-Naming convention: Fong_ENV872_FinalProject_[DescriptiveName]
+File naming convention: Fong_ENV872_FinalProject_[DescriptiveName]
 
 ## Metadata
-obis_seamap_species_160985_points.csv (only the following columns were used in this analysis:)
+obis_seamap_species_160985_points.csv (only the following columns were used in this analysis)
 - latitude, longitude: location of sighting
-- species_name, scientific_name, common_name: species identifiers
 - group_size: number of individuals observed
 - date_time: date and time observed
 
 
 ## Scripts and code
-<list any software scripts/code contained in the repository and a description of
-their purpose.>
+Fong_ENV872_FinalProject_DataProcessing.Rmd (Code for data processing and cleaning)
+Fong_ENV872_FinalProject_DataExploration.Rmd (Code for initial data exploration)
+Fong_ENV872_FinalProject_DataAnalysis.Rmd (Code for data analysis)
+Fong_ENV872_Project.Rmd (Code for final project page)
+Fong_ENV872_Project.html (Final project page)
