@@ -39,8 +39,8 @@ obis_seamap_species_160985_points.csv (only the following columns were used in t
 
 
 ## Scripts and code
-Fong_ENV872_FinalProject_DataProcessing.Rmd (Code for data processing and cleaning)
-Fong_ENV872_FinalProject_DataExploration.Rmd (Code for initial data exploration)
-Fong_ENV872_FinalProject_DataAnalysis.Rmd (Code for data analysis)
-Fong_ENV872_Project.Rmd (Code for final project page)
-Fong_ENV872_Project.html (Final project page)
+- Fong_ENV872_FinalProject_DataProcessing.Rmd (Code for data processing and cleaning)
+- Fong_ENV872_FinalProject_DataExploration.Rmd (Code for initial data exploration)
+- Fong_ENV872_FinalProject_DataAnalysis.Rmd (Code for data analysis)
+- Fong_ENV872_Project.Rmd (Code for final project page)
+- Fong_ENV872_Project.html (Final project page)
